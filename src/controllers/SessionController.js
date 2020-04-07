@@ -1,6 +1,15 @@
 const User = require('../models/User');
 
 module.exports = {
+  async find(req, res) {
+    try {
+      const users = await User.find({});
+
+      res.json(users);
+    } catch (error) {
+      res.status(500).send({ message: error });
+    }
+  },
   async register(req, res) {
     try {
 
