@@ -9,7 +9,8 @@ module.exports = {
 
       const anamnese = await Anamnese.create({
         ...req.body,
-        paciente: user
+        paciente: user,
+        type: 'Anamnese inicial'
       });
 
       res.json(anamnese);
@@ -22,7 +23,14 @@ module.exports = {
     const { id } = req.params;
 
     try {
-      await Anamnese.findOneAndUpdate(id, req.body);
+      const user = await AssistedUserController.extractUser(req.body);
+
+      const anamnese = await Anamnese.create({
+        ...req.body,
+        paciente: user,
+      });
+
+      await Anamnese.findOneAndUpdate(id, anamnese);
 
       res.json({ message: 'Ok' });
 
@@ -50,7 +58,8 @@ module.exports = {
 
       const returnForm = await Return.create({
         ...req.body,
-        paciente: user
+        paciente: user,
+        type: 'Retorno'
       });
 
       res.json(returnForm);
@@ -63,11 +72,19 @@ module.exports = {
     const { id } = req.params;
 
     try {
-      await ReturnForm.findOneAndUpdate(id, req.body);
+      const user = await AssistedUserController.extractUser(req.body);
+      
+      const returnForm = {
+        ...req.body,
+        paciente: user
+      }
+
+      await Return.findOneAndUpdate(id, returnForm);
 
       res.json({ message: 'Ok' });
 
     } catch (error) {
+      console.log(error);
       res.status(500).send({ message: error });
     }
   },
@@ -76,7 +93,7 @@ module.exports = {
     const { id } = req.params;
 
     try {
-      await ReturnForm.remove({ _id: id });
+      await Return.remove({ _id: id });
 
       res.json({ message: 'Ok' });
       
@@ -89,8 +106,8 @@ module.exports = {
     const { assistedUserId } = req.params;
 
     try {
-      const anamneses = await Anamnese.find({ paciente: { _id: assistedUserId } });
-      const returns = await Return.find({ paciente: { _id: assistedUserId } });
+      const anamneses = await Anamnese.find({ paciente: { _id: assistedUserId } }).populate('paciente');
+      const returns = await Return.find({ paciente: { _id: assistedUserId } }).populate('paciente');
 
       const result = [...anamneses, ...returns];
 
