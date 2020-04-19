@@ -1,4 +1,6 @@
 const AssistedUser = require('../models/AssistedUser');
+const ReturnForm = require('../models/ReturnForm');
+const AnamneseForm = require('../models/AnamneseForm');
 
 module.exports = {
   async find(req, res) {
@@ -17,6 +19,17 @@ module.exports = {
       res.json(users);
     } catch (error) {
       res.status(500).send({ message: error });
+    }
+  },
+
+  async checkUser(id) {
+    const anamneses = await AnamneseForm.find({ paciente: id });
+    const returns = await ReturnForm.find({ paciente: id });
+    
+    const result = [...anamneses, ...returns];
+
+    if (result.length == 0) {
+      await AssistedUser.remove({ _id: id });
     }
   },
 

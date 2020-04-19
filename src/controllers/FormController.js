@@ -47,7 +47,10 @@ module.exports = {
     const { id } = req.params;
 
     try {
-      await Anamnese.remove({ _id: id });
+      const anamnese = await Anamnese.findOne({ _id: id });
+      await Anamnese.remove(anamnese);
+
+      AssistedUserController.checkUser(anamnese.paciente);
 
       res.json({ message: 'Ok' });
       
@@ -97,7 +100,10 @@ module.exports = {
     const { id } = req.params;
 
     try {
-      await Return.remove({ _id: id });
+      const form = await Return.findOne({ _id: id });
+      await Return.remove(form);
+
+      AssistedUserController.checkUser(form.paciente);
 
       res.json({ message: 'Ok' });
       
