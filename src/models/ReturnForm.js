@@ -5,7 +5,7 @@ const ReturnSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'AssistedUser',
     required: true
-  } 
-}, { strict: false });
+  }
+}, { strict: false, timestamps: true });
 
 module.exports = mongoose.model('Return', ReturnSchema);

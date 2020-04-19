@@ -6,6 +6,6 @@ const AnamneseSchema = mongoose.Schema({
     ref: 'AssistedUser',
     required: true
   } 
-}, { strict: false });
+}, { strict: false, timestamps: true });
 
 module.exports = mongoose.model('Anamnese', AnamneseSchema);

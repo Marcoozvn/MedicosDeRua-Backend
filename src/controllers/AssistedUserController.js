@@ -5,14 +5,15 @@ module.exports = {
     let query;
 
     if (req.query.nome) {
-      query = { nome: { $regex: new RegExp(req.query.value, 'i') } }
+      query = { nome: { $regex: new RegExp(req.query.nome, 'i') } }
     } else {
       query = req.query;
     }
 
+    console.log(query, req.query);
     try {
       const users = await AssistedUser.find(query);
-      
+
       res.json(users);
     } catch (error) {
       res.status(500).send({ message: error });
@@ -20,21 +21,29 @@ module.exports = {
   },
 
   async extractUser(form) {
-    const { paciente: { nome, cpf, dataNascimento }} = form;
+    const { paciente } = form;
 
-      let user;
+    console.log(paciente.nome);
 
-      if (cpf) {
-        user = await AssistedUser.findOne({cpf});
+    const { nome, cpf } = paciente;
 
-      } else {
-        user = await AssistedUser.findOne({nome});
-      }
+    let user;
 
-      if (!user) {
-        user = await AssistedUser.create({nome, cpf, dataNascimento});
-      } 
+    if (cpf) {
+      user = await AssistedUser.findOne({ cpf });
 
-      return user;
+    } else {
+      user = await AssistedUser.findOne({ nome });
+    }
+
+    if (!user) {
+      user = await AssistedUser.create(paciente,);
+    } else {
+      delete paciente._id;
+      await AssistedUser.findOneAndUpdate({_id: user.id}, { ...paciente })
+    }
+
+
+    return user;
   }
 }

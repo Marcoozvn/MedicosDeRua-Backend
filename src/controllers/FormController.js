@@ -15,6 +15,7 @@ module.exports = {
 
       res.json(anamnese);
     } catch (err) {
+      console.log(err);
       res.status(500).send({ message: err });
     }
   },
@@ -25,16 +26,19 @@ module.exports = {
     try {
       const user = await AssistedUserController.extractUser(req.body);
 
-      const anamnese = await Anamnese.create({
+      const anamnese = {
         ...req.body,
         paciente: user,
-      });
+      };
+
+      delete anamnese._id;
 
       await Anamnese.findOneAndUpdate(id, anamnese);
 
       res.json({ message: 'Ok' });
 
     } catch (error) {
+      console.log(error);
       res.status(500).send({ message: error });
     }
   },
