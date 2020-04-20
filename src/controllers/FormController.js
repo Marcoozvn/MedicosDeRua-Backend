@@ -84,7 +84,7 @@ module.exports = {
       const returnForm = {
         ...req.body,
         paciente: user
-      }
+      };
 
       await Return.findOneAndUpdate(id, returnForm);
 

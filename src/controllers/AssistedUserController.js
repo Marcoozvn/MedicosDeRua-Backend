@@ -12,7 +12,6 @@ module.exports = {
       query = req.query;
     }
 
-    console.log(query, req.query);
     try {
       const users = await AssistedUser.find(query);
 
@@ -35,8 +34,6 @@ module.exports = {
 
   async extractUser(form) {
     const { paciente } = form;
-
-    console.log(paciente.nome);
 
     const { nome, cpf } = paciente;
 
