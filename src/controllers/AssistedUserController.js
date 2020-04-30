@@ -8,7 +8,14 @@ module.exports = {
 
     if (req.query.nome) {
       query = { nome: { $regex: new RegExp(req.query.nome, 'i') } }
-    } else {
+    } 
+    if (req.query.dataNascimento) {
+      const dd = req.query.dataNascimento.substring(0, 2);
+      const mm = +req.query.dataNascimento.substring(2, 4) - 1; //o mês é contado a partir do 0
+      const yyyy = req.query.dataNascimento.substring(4);
+      query = { dataNascimento:  new Date(yyyy, mm, dd).toISOString()};
+    }
+    else {
       query = req.query;
     }
 
@@ -35,7 +42,7 @@ module.exports = {
   async extractUser(form) {
     const { paciente } = form;
 
-    const { nome, cpf } = paciente;
+    const { nome, cpf, dataNascimento } = paciente;
 
     let user;
 
@@ -43,7 +50,7 @@ module.exports = {
       user = await AssistedUser.findOne({ cpf });
 
     } else {
-      user = await AssistedUser.findOne({ nome });
+      user = await AssistedUser.findOne({ nome, dataNascimento });
     }
 
     if (!user) {
