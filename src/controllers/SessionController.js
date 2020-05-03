@@ -1,4 +1,6 @@
 const User = require('../models/User');
+const Action = require('../models/Action');
+const moment = require('moment');
 
 module.exports = {
   async find(req, res) {
@@ -44,6 +46,15 @@ module.exports = {
       return res.status(400).send({message: 'Login/senha incorretos!'});
     }
 
+    if (user.papel !== 'Tutor') {
+      const dataAtual = moment().format("YYYY-MM-DDTHH:mm:ss.SSSZ");
+      const action = await Action.find({ dataInicio: {$lte: dataAtual}, dataFinal: {$gte: dataAtual}});
+
+      if (!action || action.length == 0) {
+        return res.status(403).send({message: 'Não é permitido acessar o sistema no período atual'});
+      }
+    }
+
     const token = User.generateToken(user._id, user.papel);
     
     return res.json({token});
@@ -75,6 +86,25 @@ module.exports = {
       next();
     } else {
       return res.status(403).send({message: 'Não autorizado'});
+    }
+  },
+
+  async verifyAction(req, res, next) {
+    const papel = req.papel;
+
+    if (papel === 'Tutor') {
+      next();
+    } else {
+      const dataAtual = moment().format("YYYY-MM-DDTHH:mm:ss.SSSZ");
+      const action = await Action.find({ dataInicio: {$lte: dataAtual}, dataFinal: {$gte: dataAtual}});
+
+      if (action.length > 0) {
+        next();
+      }
+
+      else {
+        return res.status(403).send({message: 'Não é permitido acessar o sistema no período atual'});
+      }
     }
   }
   
