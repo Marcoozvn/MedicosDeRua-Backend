@@ -9,7 +9,7 @@ const AssistedUserController = require('./controllers/AssistedUserController');
 const routes = Router();
 
 //Login - Registro de usuários
-routes.post('/register', SessionController.register);
+routes.post('/register', SessionController.verifyToken, SessionController.verifyRole, SessionController.register);
 routes.post('/login', SessionController.login);
 
 //Usuários assistidos

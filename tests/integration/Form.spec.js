@@ -8,12 +8,12 @@ describe('Form', () => {
   beforeAll(async () => {
     await database.model('User').create({
       name: 'Marcos Cesar',
-      username: 'marcos',
+      login: 'marcos',
       password: '123'
     });
 
     const response = await request(app).post('/login').send({
-      username: 'marcos',
+      login: 'marcos',
       password: '123'
     });
 

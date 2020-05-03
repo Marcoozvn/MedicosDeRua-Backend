@@ -3,11 +3,11 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const UserSchema = mongoose.Schema({
-  name: {
+  nome: {
     type: String,
     required: true
   },
-  username: {
+  login: {
     type: String,
     required: true
   },
@@ -15,13 +15,10 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  role: {
+  papel: {
     type: String,
     enum: ['Academico', 'Medico', 'Juridico', 'Odontologia', 'Nutricao', 'Enfermagem', 'Veterinaria', 'Psicologia',
           'Fisioterapia', 'Admin', 'Tutor'],
-  },
-  tutorArea: {
-    type: String
   }
 });
 
@@ -40,13 +37,13 @@ UserSchema.methods = {
 };
 
 UserSchema.statics = {
-  generateToken(id, role, tutorArea) {
-    return jwt.sign({ id, role, tutorArea }, 'secret', {
+  generateToken(id, papel) {
+    return jwt.sign({ id, papel }, process.env.SECRET, {
       expiresIn: '7d',
     });
   },
   verifyToken(token) {
-    return jwt.verify(token, 'secret');
+    return jwt.verify(token, process.env.SECRET);
   },
 };
 

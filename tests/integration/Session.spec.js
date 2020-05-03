@@ -6,7 +6,7 @@ describe('Session', () => {
   beforeAll(async () => {
     await database.model('User').create({
       name: 'Marcos Cesar',
-      username: 'marcos',
+      login: 'marcos',
       password: '123'
     });
   });
@@ -19,7 +19,7 @@ describe('Session', () => {
     const response = await request(app)
       .post('/login')
       .send({
-        username: 'marcos',
+        login: 'marcos',
         password: '123'
       });
     
@@ -30,7 +30,7 @@ describe('Session', () => {
     const response = await request(app)
     .post('/login')
     .send({
-      username: 'wrong',
+      login: 'wrong',
       password: 'password'
     });
   

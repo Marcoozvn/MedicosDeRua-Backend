@@ -9,7 +9,7 @@ module.exports = {
     if (req.query.nome) {
       query = { nome: { $regex: new RegExp(req.query.nome, 'i') } }
     } 
-    if (req.query.dataNascimento) {
+    else if (req.query.dataNascimento) {
       const dd = req.query.dataNascimento.substring(0, 2);
       const mm = +req.query.dataNascimento.substring(2, 4) - 1; //o mês é contado a partir do 0
       const yyyy = req.query.dataNascimento.substring(4);
