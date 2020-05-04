@@ -55,7 +55,7 @@ module.exports = {
       }
     }
 
-    const token = User.generateToken(user._id, user.papel);
+    const token = User.generateToken(user._id, user.nome, user.papel);
     
     return res.json({token});
   },

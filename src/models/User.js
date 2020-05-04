@@ -37,8 +37,8 @@ UserSchema.methods = {
 };
 
 UserSchema.statics = {
-  generateToken(id, papel) {
-    return jwt.sign({ id, papel }, process.env.SECRET, {
+  generateToken(id, nome, papel) {
+    return jwt.sign({ id, nome, papel }, process.env.SECRET, {
       expiresIn: '7d',
     });
   },
