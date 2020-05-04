@@ -1,4 +1,5 @@
 const Action = require('../models/Action');
+const moment = require('moment');
 
 module.exports = {
   async create(req, res) {
@@ -15,7 +16,8 @@ module.exports = {
 
   async findAll(req, res) {
     try {
-      const actions = await Action.find();
+      const dataAtual = moment().format("YYYY-MM-DDTHH:mm:ss.SSSZ");
+      const actions = await Action.find({ dataFinal: {$gte: dataAtual}});
 
       return res.json(actions);
     } catch (error) {
