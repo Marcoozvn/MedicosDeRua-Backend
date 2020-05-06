@@ -5,7 +5,7 @@ const log = bunyan.createLogger({
     name: 'MedicosDeRua-backend', 
     streams: [{
       type: 'rotating-file',
-      path: __dirname + '\\MedicosDeRua.log' ,
+      path: process.cwd() + '\\MedicosDeRua.log' ,
       period: '1d',   // daily rotation
       count: 3        // keep 3 back copies
   }]
@@ -19,7 +19,7 @@ module.exports = audit({
       excludeHeaders: ['authorization'], // Exclude 'authorization' header from requests
   },
   response: {
-      maskBody: ['token'], // Mask 'session_token' field in response body
+      maskBody: ['token', 'password'], // Mask 'session_token' field in response body
       excludeHeaders: ['*'], // Exclude all headers from responses,
   }
 });

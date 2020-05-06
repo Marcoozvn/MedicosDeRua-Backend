@@ -4,7 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 
-const audit = require('./logger');
+const audit = require('./config/logger');
 
 const routes = require('./routes');
 require('./config/database');
