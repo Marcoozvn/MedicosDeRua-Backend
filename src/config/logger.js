@@ -6,7 +6,7 @@ const log = bunyan.createLogger({
     streams: [{
       type: 'rotating-file',
       path: process.cwd() + '\\MedicosDeRua.log' ,
-      period: '1d',   // daily rotation
+      period: '7d',   // daily rotation
       count: 3        // keep 3 back copies
   }]
 });
