@@ -8,13 +8,13 @@ const ActionController = require('./controllers/ActionController');
 const routes = Router();
 
 //Login - Registro de usuários
-routes.post('/register', SessionController.verifyToken, SessionController.verifyRole, SessionController.verifyAction, SessionController.register);
+routes.post('/register', SessionController.register);
 routes.post('/login', SessionController.login);
 
 //Ações
-routes.post('/action', SessionController.verifyToken, SessionController.verifyRole, SessionController.verifyAction, ActionController.create);
-routes.get('/action', SessionController.verifyToken, SessionController.verifyRole, SessionController.verifyAction, ActionController.findAll);
-routes.delete('/action/:id', SessionController.verifyToken, SessionController.verifyRole, SessionController.verifyAction, ActionController.delete);
+routes.post('/action', SessionController.verifyToken, SessionController.verifyRole, ActionController.create);
+routes.get('/action', SessionController.verifyToken, SessionController.verifyRole, ActionController.findAll);
+routes.delete('/action/:id', SessionController.verifyToken, SessionController.verifyRole, ActionController.delete);
 
 //Usuários assistidos
 routes.get('/users', SessionController.verifyToken, SessionController.verifyAction, AssistedUserController.find);
