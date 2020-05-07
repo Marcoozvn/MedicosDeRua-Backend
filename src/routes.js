@@ -8,7 +8,7 @@ const ActionController = require('./controllers/ActionController');
 const routes = Router();
 
 //Login - Registro de usuários
-routes.post('/register', SessionController.register);
+routes.post('/register', SessionController.verifyToken, SessionController.verifyRole, SessionController.register);
 routes.post('/login', SessionController.login);
 
 //Ações
