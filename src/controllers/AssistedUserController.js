@@ -19,6 +19,8 @@ module.exports = {
       query = req.query;
     }
 
+    console.log(query);
+
     try {
       const users = await AssistedUser.find(query);
 

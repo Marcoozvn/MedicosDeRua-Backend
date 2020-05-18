@@ -3,12 +3,7 @@ const bunyan = require('bunyan');
 
 const log = bunyan.createLogger({
     name: 'MedicosDeRua-backend', 
-    streams: [{
-      type: 'rotating-file',
-      path: process.cwd() + '\\MedicosDeRua.log' ,
-      period: '7d',   // daily rotation
-      count: 3        // keep 3 back copies
-  }]
+    stream: process.stdout
 });
 
 module.exports = audit({

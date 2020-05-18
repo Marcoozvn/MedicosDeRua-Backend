@@ -7,7 +7,7 @@ let token;
 describe('Form', () => {
   beforeAll(async () => {
     await database.model('User').create({
-      name: 'Marcos Cesar',
+      nome: 'Marcos Cesar',
       login: 'marcos',
       password: '123'
     });

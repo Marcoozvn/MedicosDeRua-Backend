@@ -5,9 +5,10 @@ const database = require('../../src/config/database');
 describe('Session', () => {
   beforeAll(async () => {
     await database.model('User').create({
-      name: 'Marcos Cesar',
+      nome: 'Marcos Cesar',
       login: 'marcos',
-      password: '123'
+      password: '123',
+      papel: 'Tutor'
     });
   });
 
