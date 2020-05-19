@@ -64,5 +64,9 @@ module.exports = {
 
 
     return user;
+  },
+
+  async updateUser(id, user) {
+    return await AssistedUser.findOneAndUpdate({ _id: id }, { ...user })
   }
 }

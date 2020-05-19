@@ -24,16 +24,18 @@ module.exports = {
     const { id } = req.params;
 
     try {
-      const user = await AssistedUserController.extractUser(req.body);
+      const form = await Anamnese.findById(id);
+
+      const userId = form.paciente;
+
+      AssistedUserController.updateUser(userId, req.body.paciente)
 
       const anamnese = {
         ...req.body,
-        paciente: user,
+        paciente: userId,
       };
 
-      delete anamnese._id;
-
-      await Anamnese.findOneAndUpdate(id, anamnese);
+      await Anamnese.findOneAndUpdate({ _id: id }, anamnese);
 
       res.json({ message: 'Ok' });
 
@@ -79,14 +81,16 @@ module.exports = {
     const { id } = req.params;
 
     try {
-      const user = await AssistedUserController.extractUser(req.body);
+      const form = await Anamnese.findById(id);
+
+      const userId = form.paciente;
       
       const returnForm = {
         ...req.body,
-        paciente: user
+        paciente: userId
       };
 
-      await Return.findOneAndUpdate(id, returnForm);
+      await Return.findOneAndUpdate({ _id: id }, returnForm);
 
       res.json({ message: 'Ok' });
 
