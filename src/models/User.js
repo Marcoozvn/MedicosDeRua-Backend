@@ -17,7 +17,7 @@ const UserSchema = mongoose.Schema({
   },
   papel: {
     type: String,
-    enum: ['Academico', 'Medico', 'Juridico', 'Odontologia', 'Nutricao', 'Enfermagem', 'Veterinaria', 'Psicologia',
+    enum: ['Acadêmico', 'Médico', 'Jurídico', 'Odontologia', 'Nutrição', 'Enfermagem', 'Veterinária', 'Psicologia',
           'Fisioterapia', 'Admin', 'Tutor'],
   }
 });
