@@ -13,7 +13,7 @@ module.exports = {
       const dd = req.query.dataNascimento.substring(0, 2);
       const mm = +req.query.dataNascimento.substring(2, 4) - 1; //o mês é contado a partir do 0
       const yyyy = req.query.dataNascimento.substring(4);
-      query = { dataNascimento:  new Date(yyyy, mm, dd).toISOString()};
+      query = { dataNascimento:  new Date(yyyy, mm, dd, 3).toISOString()};
     }
     else {
       query = req.query;
