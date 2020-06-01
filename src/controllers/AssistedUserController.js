@@ -44,26 +44,23 @@ module.exports = {
   async extractUser(form) {
     const { paciente } = form;
 
-    const { nome, cpf, dataNascimento } = paciente;
-
-    let user;
+    const { cpf } = paciente;
 
     if (cpf) {
-      user = await AssistedUser.findOne({ cpf });
+      const user = await AssistedUser.findOne({ cpf });
+      
+      if (user) {
+        return null
+      }
+    } 
 
-    } else {
-      user = await AssistedUser.findOne({ nome, dataNascimento });
-    }
-
-    if (!user) {
-      user = await AssistedUser.create(paciente,);
-    } else {
-      delete paciente._id;
-      await AssistedUser.findOneAndUpdate({_id: user.id}, { ...paciente })
-    }
-
+    const user = await AssistedUser.create(paciente);
 
     return user;
+  },
+
+  async findById(id) {
+    return await AssistedUser.findById(id);
   },
 
   async updateUser(id, user) {

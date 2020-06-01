@@ -7,16 +7,19 @@ module.exports = {
     try {
       const user = await AssistedUserController.extractUser(req.body);
 
+      if (!user) {
+        return res.status(400).json({ message: 'CPF já cadastrado '})
+      }
+
       const anamnese = await Anamnese.create({
         ...req.body,
         paciente: user,
         type: 'Anamnese inicial'
       });
 
-      res.json(anamnese);
+      return res.json(anamnese);
     } catch (err) {
-      console.log(err);
-      res.status(500).send({ message: err });
+      res.status(500).send({message: err});
     }
   },
 
@@ -50,7 +53,7 @@ module.exports = {
 
     try {
       const anamnese = await Anamnese.findOne({ _id: id });
-      await Anamnese.remove(anamnese);
+      await Anamnese.deleteOne({ _id: id });
 
       AssistedUserController.checkUser(anamnese.paciente);
 
@@ -63,7 +66,7 @@ module.exports = {
 
   async createReturn(req, res) {
     try {
-      const user = await AssistedUserController.extractUser(req.body);
+      const user = await AssistedUserController.findById(req.body.paciente);
 
       const returnForm = await Return.create({
         ...req.body,
@@ -81,7 +84,7 @@ module.exports = {
     const { id } = req.params;
 
     try {
-      const form = await Anamnese.findById(id);
+      const form = await Return.findById(id);
 
       const userId = form.paciente;
       
@@ -95,7 +98,6 @@ module.exports = {
       res.json({ message: 'Ok' });
 
     } catch (error) {
-      console.log(error);
       res.status(500).send({ message: error });
     }
   },
@@ -105,7 +107,7 @@ module.exports = {
 
     try {
       const form = await Return.findOne({ _id: id });
-      await Return.remove(form);
+      await Return.deleteOne({ _id: id })
 
       AssistedUserController.checkUser(form.paciente);
 

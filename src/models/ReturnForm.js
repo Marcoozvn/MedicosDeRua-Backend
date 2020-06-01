@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const ReturnSchema = mongoose.Schema({
+  data: Date,
   paciente: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'AssistedUser',
